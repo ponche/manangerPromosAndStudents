@@ -12,9 +12,9 @@ var listPromo = [] ;
 const API_POPSCHOOL = "http://api-students.popschool-lens.fr/api/" ; 
 
 
-function loadPromo()
+function loadPromos()
 {
-    fetch("http://api-students.popschool-lens.fr/api/promotions")
+    fetch(API_POPSCHOOL + "promotions")
     .then(function(response){
         return response.json() ; 
     })
@@ -32,14 +32,12 @@ function drawPromos(listPromo)
     tagContainerPromos.innerHTML = "" ; 
     // add all the promos in the Select tag 
     listPromo.forEach(function(promo){
-        let tagOption = createTagPromo(promo) ; 
+        let tagOption = createTagOptionPromo(promo) ; 
         tagContainerPromos.appendChild(tagOption) ; 
     })
 }
 
-
-
-function createTagPromo(promo)
+function createTagOptionPromo(promo)
 {
     var tagPromo = document.createElement("option") ; 
     tagPromo.value = promo.id ; 
@@ -47,16 +45,15 @@ function createTagPromo(promo)
     return tagPromo ; 
 }
 
-
-
 function addPromo(name, startDate, endDate)
 {
     let bodyMessage = {
         name: name , 
-        startDate: startDate 
+        startDate: startDate ,
+        endDate: endDate
     } ; 
 
-    // send the data 
+    // send the data
     fetch(API_POPSCHOOL + "promotions" , {
         method : "POST" , 
         headers : {
@@ -67,7 +64,7 @@ function addPromo(name, startDate, endDate)
     })
     .then(function(response){
         console.log("envoi ok : " + response.ok) ; 
-        loadPromo() ; 
+        loadPromos() ; // déconseillé 
     })
 }
 
@@ -77,13 +74,11 @@ function deletePromo(idPromo)
         method: "DELETE" 
     })
     .then(function(response){
-        loadPromo() ;  
+        loadPromos() ;  // déconseillé 
     });
 }
 
-
-
-// les ecouteur evenement 
+// handled event  
 tagButtonAddPromo.addEventListener("click", function(){
     addPromo(tagInputNamePromo.value, tagInputStartPromo.value , tagInputEndPromo ) ; 
 }); 
@@ -94,9 +89,9 @@ tagButtonDeletePromo.addEventListener("click", function(){
     {
         // user confirm the delete
         deletePromo(tagContainerPromos.value) ; 
+        loadPromos() ; 
     }
-})
-
+    });
 
 // start 
-loadPromo() ; 
+loadPromos() ; 
