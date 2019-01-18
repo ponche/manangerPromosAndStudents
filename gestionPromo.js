@@ -78,6 +78,29 @@ function deletePromo(idPromo)
     });
 }
 
+function updatePromo(idPromo, name, startDate, endDate)
+{
+    let bodyMessage = {
+        name: name , 
+        startDate: startDate ,
+        endDate: endDate
+    } ; 
+
+    // send the data
+    fetch(API_POPSCHOOL + "promotions/" + idPromo, {
+        method : "POST" , 
+        headers : {
+            'Accept' : 'application/json' , 
+            'Content-Type' : 'application/json'
+        }, 
+        body : JSON.stringify(bodyMessage)
+    })
+    .then(function(response){
+        console.log("envoi ok : " + response.ok) ; 
+        loadPromos() ; // déconseillé 
+    })
+}
+
 // handled event  
 tagButtonAddPromo.addEventListener("click", function(){
     addPromo(tagInputNamePromo.value, tagInputStartPromo.value , tagInputEndPromo ) ; 
