@@ -3,7 +3,7 @@ var tagInputStartPromo = document.querySelector("#inputStartPromo") ;
 var tagInputEndPromo = document.querySelector("#inputEndPromo") ; 
 var tagButtonAddPromo = document.querySelector("#buttonAddPromo") ; 
 var tagButtonDeletePromo = document.querySelector("#buttonDeletePromo") ; 
-var tagContainerPromos = document.querySelector("#containerPromo") ; 
+var tagSelectPromos = document.querySelector("#selectPromo") ; 
 
 
 // variable global 
@@ -29,11 +29,11 @@ function loadPromos()
 function drawPromos(listPromo)
 {
     // delete all the promos in the DOM 
-    tagContainerPromos.innerHTML = "" ; 
+    tagSelectPromos.innerHTML = "" ; 
     // add all the promos in the Select tag 
     listPromo.forEach(function(promo){
         let tagOption = createTagOptionPromo(promo) ; 
-        tagContainerPromos.appendChild(tagOption) ; 
+        tagSelectPromos.appendChild(tagOption) ; 
     })
 }
 
@@ -111,7 +111,7 @@ tagButtonDeletePromo.addEventListener("click", function(){
     if(confirm("Supprimer la promo : " + tagContainerPromos.value + " ?"))
     {
         // user confirm the delete
-        deletePromo(tagContainerPromos.value) ; 
+        deletePromo(tagSelectPromos.value) ; 
         loadPromos() ; 
     }
     });
