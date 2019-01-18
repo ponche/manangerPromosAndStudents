@@ -1,8 +1,11 @@
 var tagInputNamePromo = document.querySelector("#inputNamePromo") ; 
 var tagInputStartPromo = document.querySelector("#inputStartPromo") ; 
 var tagInputEndPromo = document.querySelector("#inputEndPromo") ; 
+
 var tagButtonAddPromo = document.querySelector("#buttonAddPromo") ; 
 var tagButtonDeletePromo = document.querySelector("#buttonDeletePromo") ; 
+var tagButtonUpdatePromo = document.querySelector("#buttonUpdatePromo") ; 
+
 var tagSelectPromos = document.querySelector("#selectPromo") ; 
 
 
@@ -49,8 +52,8 @@ function addPromo(name, startDate, endDate)
 {
     let bodyMessage = {
         name: name , 
-        startDate: startDate ,
-        endDate: endDate
+        //startDate: startDate ,
+        //endDate: endDate
     } ; 
 
     // send the data
@@ -70,7 +73,7 @@ function addPromo(name, startDate, endDate)
 
 function deletePromo(idPromo)
 {
-    fetch("http://api-students.popschool-lens.fr/api/promotions/" + idPromo, {
+    fetch(API_POPSCHOOL + "promotions/" + idPromo, {
         method: "DELETE" 
     })
     .then(function(response){
@@ -88,7 +91,7 @@ function updatePromo(idPromo, name, startDate, endDate)
 
     // send the data
     fetch(API_POPSCHOOL + "promotions/" + idPromo, {
-        method : "POST" , 
+        method : "PUT" , 
         headers : {
             'Accept' : 'application/json' , 
             'Content-Type' : 'application/json'
@@ -108,13 +111,19 @@ tagButtonAddPromo.addEventListener("click", function(){
 
 tagButtonDeletePromo.addEventListener("click", function(){
     // confirm deleting before to delete 
-    if(confirm("Supprimer la promo : " + tagContainerPromos.value + " ?"))
+    if(confirm("Supprimer la promo : " + tagSelectPromos.value + " ?"))
     {
         // user confirm the delete
         deletePromo(tagSelectPromos.value) ; 
-        loadPromos() ; 
+        // loadPromos() ; 
     }
-    });
+});
+
+tagButtonUpdatePromo.addEventListener("click", function(){
+    updatePromo(tagSelectPromos.value, tagInputNamePromo.value, tagInputStartPromo.value, tagInputEndPromo.value);
+})
+
+
 
 // start 
 loadPromos() ; 
